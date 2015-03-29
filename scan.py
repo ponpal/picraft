@@ -49,9 +49,12 @@ def scan(start, stop):
 		for x in range(start.x, stop.x):
 			for y in range(start.y, stop.y):
 				for z in range(start.z, stop.z):
+					type, data = mc.getBlockWithData(x, y, z)
+					# mc.postToChat("Type: {0} Data: {1}".format(type, data))
+
 					blocks.append([x - start.x, 
 						       y - start.y, 
-						       z - start.z, mc.getBlock(x, y, z)])
+						       z - start.z, type, data])
 				scanned += (stop.z - start.z)					
 				percentage = (scanned / toScan) * 100
 				mc.postToChat("Scanning: {0:0.1f}%".format(percentage))
@@ -61,13 +64,13 @@ def duplicate(pos):
 	global blocks
 
 	if not blocks:
-		mc.postToChat("No scan data available")
+		mc.postToChat("No scan data available for duplication")
 	else:							       
 		mc.postToChat("Duplicating...")        
 		for block in blocks:
 				mc.setBlock(pos.x + block[0], 
         	                	    pos.y + block[1], 
-                	            	    pos.z + block[2], block[3])
+                	            	    pos.z + block[2], block[3], block[4])
 		mc.postToChat("Duplication complete")
 
 def writeBlocks(id):
@@ -76,7 +79,8 @@ def writeBlocks(id):
 	mc.postToChat("Saving scanned structure into structures/s{0}.mcs...".format(id))
 	file = open("structures/s{0}.mcs".format(id), "w")
 	for b in blocks:
-		file.write("{0} {1} {2} {3}\n".format(b[0], b[1], b[2], b[3]))
+		file.write("{0} {1} {2} {3} {4}\n".format(
+			b[0], b[1], b[2], b[3], b[4]))
 	mc.postToChat("Structure saved")
 
 def readBlocks(id):
@@ -86,8 +90,8 @@ def readBlocks(id):
 	mc.postToChat("Loading structure from structures/s{0}.mcs...".format(id))
 	file = open("structures/s{0}.mcs".format(id), "r")
 	for line in file:
-		x, y, z, t = [int(x) for x in line.split()]
-		blocks.append([x, y, z, t])
+		x, y, z, t, d = [int(x) for x in line.split()]
+		blocks.append([x, y, z, t, d])
 	mc.postToChat("Structure loaded")
 
 def main():
