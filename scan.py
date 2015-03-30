@@ -1,8 +1,8 @@
 from __future__ import division
+from mcpi.vec3 import Vec3
 import mcpi.minecraft as minecraft
 import mcpi.block as block
 import pickle
-from mcpi.vec3 import Vec3
 
 mc = minecraft.Minecraft.create()
 mc.postToChat("Connected")
