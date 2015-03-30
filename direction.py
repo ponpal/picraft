@@ -3,42 +3,55 @@ import math
 import time
 from mcpi.vec3 import Vec3
 
-mc = minecraft.Minecraft.create()
-mc.postToChat("Connected")
+DIR_STR = ["NORTH", "WEST", "SOUTH", "EAST"]
 
-# Acknowledges the fact that block positions
-# are not at the center of the blocks.
+# Constant used to acknowledge the fact that block positions are
+# not at the center of the blocks.
 CORRECTION = 0.5
 
 # Returns the angle in degrees between the player and the blockhit
-def getHitAngle(hit, player):
+def getHitAngle(player, hit):
 	deltaX = hit.x + CORRECTION - player.x
 	deltaZ = hit.z + CORRECTION - player.z
 
 	return getAngle(deltaX, deltaZ)
 
-# Returns the angle given the differences in X and Z.
+# Returns the angle in degrees given differences in X and Z.
 def getAngle(deltaX, deltaZ):
 	return (math.atan2(deltaX, deltaZ) * (180 / math.pi)) % 360
 
-# Returns a string representation of the direction from a to b
-def getDirection(a, b):
+# Returns an int representation of the direction from a to b.
+# The returned int can be used as an index in DIR_STR to
+# retrieve a string representation.
+def getDirectionFromPoints(a, b):
 	angle = getAngle(b.x - a.x, b.z - a.z)
 	
-	if angle > 45 and angle <= 135:
-		return "NORTH"
-	if angle > 135 and angle <= 225:
-		return "WEST"
-	if angle > 225 and angle <= 315:
-		return "SOUTH"
-	if angle > 315 or angle <= 45:
-		return "EAST"
+	return getDirection(angle)
 
-# Returns true if the positions p1 and p2 are not the same, false otherwise
+# Returns an int representation of the direction given an angle.
+# The returned int can be used as an index in DIR_STR to
+# retrieve a string representation.
+def getDirection(angle)
+	if angle > 45 and angle <= 135:
+		return 0 # NORTH
+	if angle > 135 and angle <= 225:
+		return 1 # WEST
+	if angle > 225 and angle <= 315:
+		return 2 # SOUTH
+	if angle > 315 or angle <= 45:
+		return 3 # EAST
+
+# Returns true if the positions p1 and p2 are not the same 
+# ie. the measured object is moving, false otherwise.
 def moving(p1, p2):
 	return p1.x != p2.x or p1.z != p2.z 
 
+# Sample usage of the above functions. Prints the direction 
+# of the player in the console everytime it changes.
 def main():
+	mc = minecraft.Minecraft.create()
+	mc.postToChat("Connected")
+
 	oldPos = mc.player.getPos()
 	oldDir = "UNDEFINED"
 
@@ -52,7 +65,7 @@ def main():
 			newDir = oldDir 			
 
 		if newDir != oldDir:
-			print "Walking {0}".format(newDir)
+			print "Moving {0}".format(DIR_STR[newDir])
 	
 		oldPos = newPos
 		oldDir = newDir

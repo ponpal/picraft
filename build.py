@@ -1,5 +1,6 @@
 import mcpi.minecraft as minecraft
 import mcpi.block as block
+from direction import getHitAngle
 
 mc = minecraft.Minecraft.create()
 mc.postToChat("Connected")
@@ -153,4 +154,5 @@ while True:
 			elif b == REMOVE_TOOLS_BLOCK:
 				removeTools(hit.pos)
 			else:
-				mc.postToChat(b)
+				mc.postToChat("Angle: {0}".format(
+					getHitAngle(mc.player.getPos(), hit.pos)))
