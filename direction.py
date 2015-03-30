@@ -1,7 +1,6 @@
 import mcpi.minecraft as minecraft
 import math
 import time
-from mcpi.vec3 import Vec3
 
 DIR_STR = ["NORTH", "WEST", "SOUTH", "EAST"]
 
