@@ -30,7 +30,7 @@ def getDirectionFromPoints(a, b):
 # Returns an int representation of the direction given an angle.
 # The returned int can be used as an index in DIR_STR to
 # retrieve a string representation.
-def getDirection(angle)
+def getDirection(angle):
 	if angle > 45 and angle <= 135:
 		return 0 # NORTH
 	if angle > 135 and angle <= 225:
@@ -56,7 +56,7 @@ def main():
 
 	while True:
 		newPos = mc.player.getPos()
-		newDir = getDirection(oldPos, newPos)	
+		newDir = getDirectionFromPoints(oldPos, newPos)
 
 		# Hack to keep direction from being set to EAST 
 		# when the player stops moving
