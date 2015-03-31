@@ -64,7 +64,7 @@ def main():
 			newDir = oldDir 			
 
 		if newDir != oldDir:
-			print "Moving {0}".format(DIR_STR[newDir])
+			print "Moving {0}.".format(DIR_STR[newDir].lower())
 	
 		oldPos = newPos
 		oldDir = newDir
