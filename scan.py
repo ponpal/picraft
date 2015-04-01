@@ -2,17 +2,24 @@ from __future__ import division
 from mcpi.vec3 import Vec3
 import mcpi.minecraft as minecraft
 import mcpi.block as block
-import pickle
 
 mc = minecraft.Minecraft.create()
 mc.postToChat("Connected")
 
-SCAN_INIT  = block.MOSS_STONE.id
+SCAN_INIT  = block.NETHER_REACTOR_CORE.id
 DUPLICATE  = block.DIRT.id
-WRITE	   = block.GLASS.id
+WRITE	   = block.CRAFTING_TABLE.id
 READ	   = block.BOOKSHELF.id
 
 UNDEF_POS = Vec3(-1000, 0, 0)
+
+SPECIAL_BLOCKS = [block.BED.id,
+                  block.TORCH.id,
+                  block.DOOR_WOOD.id,
+                  block.LADDER.id,
+                  block.FENCE.id,
+                  block.GLASS_PANE.id,
+                  block.FENCE_GATE.id]
 
 scanToggle = True # Used for coordinating scan area
 scanStart  = UNDEF_POS
@@ -45,21 +52,29 @@ def scan(start, stop):
 		mc.postToChat("Please define where to start and end the scan")
 	else:
 		blocks = [] # Clear previous scan
+
+                # Special blocks that should be added to the end of the scanned
+                # data for correct duplication.
+                specials = [] 
 		
 		for x in range(start.x, stop.x):
 			for y in range(start.y, stop.y):
 				for z in range(start.z, stop.z):
+                                        bx = x - start.x
+                                        by = y - start.y
+                                        bz = z - start.z
 					type, data = mc.getBlockWithData(x, y, z)
-					# mc.postToChat("Type: {0} Data: {1}".format(type, data))
 
-					blocks.append([x - start.x, 
-						       y - start.y, 
-						       z - start.z, type, data])
-				scanned += (stop.z - start.z)					
+                                        if type in SPECIAL_BLOCKS:
+                                                specials.append([x, y, z, type, data])
+                                        else:
+                                                blocks.append([x, y, z, type, data])
+				scanned += (stop.z - start.z)
 				percentage = (scanned / toScan) * 100
 				mc.postToChat("Scanning: {0:0.1f}%".format(percentage))
+                blocks.extend(specials)
 		mc.postToChat("Scan complete")
-
+                
 def duplicate(pos):
 	global blocks
 
