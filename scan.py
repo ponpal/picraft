@@ -66,9 +66,9 @@ def scan(start, stop):
 					type, data = mc.getBlockWithData(x, y, z)
 
                                         if type in SPECIAL_BLOCKS:
-                                                specials.append([x, y, z, type, data])
+                                                specials.append([bx, by, bz, type, data])
                                         else:
-                                                blocks.append([x, y, z, type, data])
+                                                blocks.append([bx, by, bz, type, data])
 				scanned += (stop.z - start.z)
 				percentage = (scanned / toScan) * 100
 				mc.postToChat("Scanning: {0:0.1f}%".format(percentage))
