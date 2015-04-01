@@ -31,13 +31,13 @@ def getDirectionFromPoints(a, b):
 # retrieve a string representation.
 def getDirection(angle):
 	if 45 < angle <= 135:
-		return 1 # NORTH
+		return 0 # NORTH
 	if 135 < angle <= 225:
-		return 2 # WEST
+		return 1 # WEST
 	if 225 < angle <= 315:
-		return 3 # SOUTH
+		return 2 # SOUTH
 	if angle > 315 or angle <= 45:
-		return 4 # EAST
+		return 3 # EAST
 
 # Returns true if the positions p1 and p2 are not the same 
 # ie. the measured object is moving, false otherwise.
