@@ -24,18 +24,17 @@ def getAngle(deltaX, deltaZ):
 # retrieve a string representation.
 def getDirectionFromPoints(a, b):
 	angle = getAngle(b.x - a.x, b.z - a.z)
-	
 	return getDirection(angle)
 
 # Returns an int representation of the direction given an angle.
-# The returned int can be used as an index in DIR_STR to
+# The returned int can be used as an index for DIR_STR to
 # retrieve a string representation.
 def getDirection(angle):
-	if angle > 45 and angle <= 135:
+	if 45 < angle <= 135:
 		return 0 # NORTH
-	if angle > 135 and angle <= 225:
+	if 135 < angle <= 225:
 		return 1 # WEST
-	if angle > 225 and angle <= 315:
+	if 225 < angle <= 315:
 		return 2 # SOUTH
 	if angle > 315 or angle <= 45:
 		return 3 # EAST
