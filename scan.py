@@ -2,7 +2,7 @@ from __future__ import division
 from mcpi.vec3 import Vec3
 import mcpi.minecraft as minecraft
 import mcpi.block as block
-import direction
+import direction as dir
 
 mc = minecraft.Minecraft.create()
 mc.postToChat("Connected")
@@ -79,7 +79,7 @@ def scan(start, stop):
 def duplicate(pos):
 	global blocks
 
-        direction = getDirectionFromPoints(mc.player.getPos(), pos)
+        direction = dir.getDirectionFromPoints(mc.player.getPos(), pos)
         
 	if not blocks:
 		mc.postToChat("No scan data available for duplication")
