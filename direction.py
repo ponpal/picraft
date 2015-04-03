@@ -2,7 +2,8 @@ import mcpi.minecraft as minecraft
 import math
 import time
 
-DIR_STR = ["NORTH", "WEST", "SOUTH", "EAST"]
+AS_STRING = ["NORTH", "WEST", "SOUTH", "EAST"]
+AS_VECTOR = [[1, 1], [-1, 1], [-1, -1], [1, -1]]
 
 # Constant used to acknowledge the fact that block positions are
 # not at the center of the blocks.
@@ -63,7 +64,7 @@ def main():
 			newDir = oldDir 			
 
 		if newDir != oldDir:
-			print "Moving {0}.".format(DIR_STR[newDir].lower())
+			print "Moving {0}.".format(AS_STRING[newDir].lower())
 	
 		oldPos = newPos
 		oldDir = newDir

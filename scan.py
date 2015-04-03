@@ -44,14 +44,13 @@ def setupScan(pos):
 def scan(start, stop):
 	global blocks
 
-	toScan = ((stop.x - start.x) * 
-		  (stop.y - start.y) * 
-		  (stop.z - start.z))
-	scanned = 0
-
 	if start == UNDEF_POS or stop == UNDEF_POS:
 		mc.postToChat("Please define where to start and end the scan")
 	else:
+                toScan = ((stop.x - start.x) * 
+                          (stop.y - start.y) * 
+                          (stop.z - start.z))
+                scanned = 0
 		blocks = [] # Clear previous scan
 
                 # Special blocks that should be added to the end of the scanned
@@ -76,19 +75,23 @@ def scan(start, stop):
                 blocks.extend(specials)
 		mc.postToChat("Scan complete")
                 
-def duplicate(pos):
+def duplicate(playerPos, hitPos):
 	global blocks
 
-        direction = dir.getDirectionFromPoints(mc.player.getPos(), pos)
+        direction = dir.getDirectionFromPoints(playerPos, hitPos)
+        dirvec = dir.AS_VECTOR[direction]
+        dirstr = dir.AS_STRING[direction]
+        
+        mc.postToChat("X: {0} Y: {1} ({2})".format(dirvec[0], dirvec[1], dirstr))
         
 	if not blocks:
 		mc.postToChat("No scan data available for duplication")
 	else:							       
 		mc.postToChat("Duplicating...")        
 		for block in blocks:
-				mc.setBlock(pos.x + block[0] * direction[0], 
-        	                	    pos.y + block[1], 
-                	            	    pos.z + block[2] * direction[1],
+				mc.setBlock(hitPos.x + block[0] * direction[0], 
+        	                	    hitPos.y + block[1], 
+                	            	    hitPos.z + block[2] * direction[1],
                                             block[3],
                                             block[4])
 		mc.postToChat("Duplication complete")
@@ -116,6 +119,7 @@ def readBlocks(id):
 
 def main():
 	while True:
+                playerPos = mc.player.getPos()
 		blockhits = mc.events.pollBlockHits()
 		if blockhits:
 			for hit in blockhits:
@@ -124,7 +128,7 @@ def main():
 				if b == SCAN_INIT:
 					scan(scanStart, scanStop)
 				elif b == DUPLICATE:
-					duplicate(hit.pos)
+					duplicate(playerPos, hit.pos)
 				elif b == WRITE:
 					writeBlocks(file_id)				
 				elif b == READ:
