@@ -91,7 +91,7 @@ def duplicate(playerPos, hitPos):
 		for block in blocks:
 				mc.setBlock(hitPos.x + block[0] * direction[0], 
         	                	    hitPos.y + block[1], 
-                	            	    hitPos.z + block[2] * direction[1],
+                	            	    hitPos.z + block[2] * dirvec[1],
                                             block[3],
                                             block[4])
 		mc.postToChat("Duplication complete")
