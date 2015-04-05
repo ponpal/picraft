@@ -2,7 +2,7 @@ import mcpi.minecraft as minecraft
 import math
 import time
 
-AS_STRING = ["NORTH", "WEST", "SOUTH", "EAST"]
+AS_STRING = ["EAST", "NORTH", "WEST", "SOUTH"]
 AS_VECTOR = [[1, 1], [-1, 1], [-1, -1], [1, -1]]
 
 # Constant used to acknowledge the fact that block positions are
@@ -32,13 +32,13 @@ def getDirectionFromPoints(a, b):
 # retrieve a string representation.
 def getDirection(angle):
 	if 45 < angle <= 135:
-		return 0 # NORTH
+		return 0 # EAST
 	if 135 < angle <= 225:
-		return 1 # WEST
+		return 1 # NORTH
 	if 225 < angle <= 315:
-		return 2 # SOUTH
+		return 2 # WEST
 	if angle > 315 or angle <= 45:
-		return 3 # EAST
+		return 3 # SOUTH
 
 # Returns true if the positions p1 and p2 are not the same 
 # ie. the measured object is moving, false otherwise.
