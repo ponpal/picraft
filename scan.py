@@ -77,21 +77,26 @@ def scan(start, stop):
                 
 def duplicate(playerPos, hitPos):
 	global blocks
-
-        direction = dir.getDirectionFromPoints(playerPos, hitPos)
-        dirvec = dir.AS_VECTOR[direction]
-        dirstr = dir.AS_STRING[direction]
-        
-        mc.postToChat("X: {0} Y: {1} ({2})".format(dirvec[0], dirvec[1], dirstr))
-        
+	direction = dir.getDirectionFromPoints(playerPos, hitPos)
+	
 	if not blocks:
 		mc.postToChat("No scan data available for duplication")
 	else:							       
-		mc.postToChat("Duplicating...")        
+		mc.postToChat("Duplicating...")
+
+		if direction = 0:
+			x = 2; xdir = -1; z = 0; zdir = 1
+		elif direction = 1:
+			x = 0; xdir = 1; z = 2; zdir = 1
+		elif direction = 2:
+			x = 2; xdir = 1; z = 0; zdir = -1
+		elif direction = 3:
+			x = 0; xdir = -1; z = 2; zdir = -1
+		
 		for block in blocks:
-			mc.setBlock(hitPos.x + block[0] * dirvec[0], 
+			mc.setBlock(hitPos.x + xdir * block[x], 
 		                hitPos.y + block[1], 
-						hitPos.z + block[2] * dirvec[1],
+						hitPos.z + zdir * block[z],
 						block[3],
 						block[4])
 		mc.postToChat("Duplication complete")
