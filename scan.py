@@ -43,56 +43,52 @@ def setupScan(pos):
 		
 def scan(start, stop):
 	global blocks
-
+	
 	if start == UNDEF_POS or stop == UNDEF_POS:
 		mc.postToChat("Please define where to start and end the scan")
 	else:
-                toScan = ((stop.x - start.x) * 
-                          (stop.y - start.y) * 
-                          (stop.z - start.z))
-                scanned = 0
+		toScan = ((stop.x - start.x) * 
+				  (stop.y - start.y) * 
+				  (stop.z - start.z))
+		scanned = 0
 		blocks = [] # Clear previous scan
-
-                # Special blocks that should be added to the end of the scanned
-                # data for correct duplication.
-                specials = [] 
+		
+		# Special blocks that should be added to the end of the scanned
+		# data for correct duplication.
+		specials = [] 
 		
 		for x in range(start.x, stop.x):
 			for y in range(start.y, stop.y):
 				for z in range(start.z, stop.z):
-                                        bx = x - start.x
-                                        by = y - start.y
-                                        bz = z - start.z
+					bx = x - start.x
+					by = y - start.y
+					bz = z - start.z
 					type, data = mc.getBlockWithData(x, y, z)
-
-                                        if type in SPECIAL_BLOCKS:
-                                                specials.append([bx, by, bz, type, data])
-                                        else:
-                                                blocks.append([bx, by, bz, type, data])
+					
+					if type in SPECIAL_BLOCKS:
+						specials.append([bx, by, bz, type, data])
+					else:
+						blocks.append([bx, by, bz, type, data])
 				scanned += (stop.z - start.z)
 				percentage = (scanned / toScan) * 100
 				mc.postToChat("Scanning: {0:0.1f}%".format(percentage))
-                blocks.extend(specials)
+
+		blocks.extend(specials)
 		mc.postToChat("Scan complete")
                 
 def duplicate(playerPos, hitPos):
 	global blocks
+
 	direction = dir.getDirectionFromPoints(playerPos, hitPos)
+	dirvec = dir.AS_VECTOR[direction]
+	x = dirvec[0]; xdir = dirvec[1], z = dirvec[2]; zdir = dirvec[3]
 	
 	if not blocks:
 		mc.postToChat("No scan data available for duplication")
 	else:							       
 		mc.postToChat("Duplicating...")
-
-		if direction = 0:
-			x = 2; xdir = -1; z = 0; zdir = 1
-		elif direction = 1:
-			x = 0; xdir = 1; z = 2; zdir = 1
-		elif direction = 2:
-			x = 2; xdir = 1; z = 0; zdir = -1
-		elif direction = 3:
-			x = 0; xdir = -1; z = 2; zdir = -1
-		
+		mc.postToChat("Direction: {0}".format(dir.AS_STRING[direction]))
+			
 		for block in blocks:
 			mc.setBlock(hitPos.x + xdir * block[x], 
 		                hitPos.y + block[1], 

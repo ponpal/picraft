@@ -3,7 +3,10 @@ import math
 import time
 
 AS_STRING = ["EAST", "NORTH", "WEST", "SOUTH"]
-AS_VECTOR = [[1, 1], [1, 1], [-1, -1], [-1, -1]]
+AS_VECTOR = [[2, -1, 0,  1],
+			 [0,  1, 2,  1],
+			 [2,  1, 0, -1],
+			 [0, -1, 2, -1]]
 
 # Constant used to acknowledge the fact that block positions are
 # not at the center of the blocks.
